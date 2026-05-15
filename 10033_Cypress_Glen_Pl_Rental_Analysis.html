@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rental Market Analysis — 10033 Cypress Glen Place</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --teal: #008C82;
+    --teal-deep: #006a62;
+    --teal-soft: #e6f3f1;
+    --gold: #D4AF50;
+    --gold-soft: #f5ecd2;
+    --charcoal: #1a1a1a;
+    --ink: #2a2a2a;
+    --paper: #fbf9f4;
+    --paper-warm: #f4efe4;
+    --line: #d8d2c2;
+    --line-soft: #ebe6d7;
+    --mute: #6b6557;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.65;
+    font-size: 16px;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(0,140,130,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(212,175,80,0.05) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+
+  .display { font-family: 'Cormorant Garamond', serif; }
+
+  /* ─────────  WRAPPER  ───────── */
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ─────────  HEADER  ───────── */
+  header.brand {
+    padding: 38px 32px 28px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(251,249,244,0.6);
+  }
+  .brand-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .logo-block {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .logo-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+  .logo-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--gold);
+  }
+  .logo-text {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mute);
+    line-height: 1.6;
+  }
+  .header-meta {
+    text-align: right;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .header-meta strong {
+    display: block;
+    color: var(--charcoal);
+    font-weight: 500;
+    margin-top: 2px;
+    letter-spacing: 1px;
+  }
+
+  /* ─────────  HERO  ───────── */
+  .hero {
+    padding: 80px 0 70px;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 26px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '';
+    flex: 0 0 36px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .hero-eyebrow::after { flex: 1 1 auto; }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(42px, 5.5vw, 68px);
+    color: var(--charcoal);
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    margin-bottom: 18px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--teal);
+    font-weight: 500;
+  }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--mute);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-weight: 400;
+    max-width: 720px;
+  }
+
+  /* ─────────  SUBJECT CARD  ───────── */
+  .subject-card {
+    background: var(--charcoal);
+    color: var(--paper);
+    padding: 50px 56px;
+    margin: 20px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .subject-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 220px;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 30%, rgba(212,175,80,0.08) 70%);
+    pointer-events: none;
+  }
+  .subject-card::after {
+    content: '';
+    position: absolute;
+    top: 24px; left: 24px; right: 24px; bottom: 24px;
+    border: 1px solid rgba(212,175,80,0.25);
+    pointer-events: none;
+  }
+  .subject-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 50px;
+    align-items: center;
+    position: relative;
+  }
+  .subject-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .subject-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+  .subject-city {
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(251,249,244,0.6);
+    margin-bottom: 28px;
+  }
+  .subject-specs {
+    display: flex;
+    gap: 32px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(212,175,80,0.25);
+  }
+  .spec {
+    font-size: 13px;
+  }
+  .spec-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .spec-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(251,249,244,0.7);
+  }
+
+  /* recommendation panel inside subject card */
+  .rec-panel {
+    border-left: 2px solid var(--gold);
+    padding: 8px 0 8px 28px;
+  }
+  .rec-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .rec-range {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 500;
+    color: var(--paper);
+    line-height: 1;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .rec-per-mo {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(251,249,244,0.6);
+    margin-bottom: 18px;
+  }
+  .rec-target {
+    font-size: 14px;
+    color: var(--paper);
+    border-top: 1px solid rgba(212,175,80,0.25);
+    padding-top: 16px;
+  }
+  .rec-target strong {
+    color: var(--gold);
+    font-weight: 500;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─────────  SECTION HEADING  ───────── */
+  .section {
+    padding: 0 0 80px;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 36px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    font-weight: 400;
+    color: var(--charcoal);
+    letter-spacing: -0.3px;
+    line-height: 1.1;
+    flex: 1;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--teal);
+  }
+  .section-kicker {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mute);
+    font-weight: 500;
+  }
+
+  /* ─────────  STAT ROW  ───────── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    margin-bottom: 16px;
+  }
+  .stat {
+    background: var(--paper);
+    padding: 28px 24px;
+    text-align: left;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--charcoal);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-value.teal { color: var(--teal); }
+  .stat-detail {
+    font-size: 12px;
+    color: var(--mute);
+    letter-spacing: 0.3px;
+  }
+
+  /* ─────────  CHART  ───────── */
+  .chart-block {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 38px 40px;
+    margin-bottom: 28px;
+  }
+  .chart-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 4px;
+  }
+  .chart-title em { font-style: italic; color: var(--teal); }
+  .chart-sub {
+    font-size: 12px;
+    color: var(--mute);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 26px;
+  }
+  .chart-wrap {
+    height: 360px;
+    position: relative;
+  }
+
+  /* ─────────  COMPS TABLE  ───────── */
+  .table-wrap {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  table.comps {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.comps thead th {
+    background: var(--charcoal);
+    color: var(--paper);
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    padding: 16px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--gold);
+  }
+  table.comps thead th.right { text-align: right; }
+  table.comps tbody td {
+    padding: 16px 14px;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--ink);
+    vertical-align: middle;
+  }
+  table.comps tbody td.right { text-align: right; font-variant-numeric: tabular-nums; }
+  table.comps tbody td.addr {
+    font-weight: 500;
+    color: var(--charcoal);
+  }
+  table.comps tbody td.sub {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  table.comps tbody tr:last-child td { border-bottom: none; }
+  table.comps tbody tr.subject-row td {
+    background: var(--gold-soft);
+    font-weight: 500;
+  }
+  table.comps tbody tr.subject-row td.addr {
+    color: var(--teal-deep);
+  }
+  table.comps tbody tr:hover td {
+    background: var(--paper-warm);
+  }
+  table.comps tbody tr.subject-row:hover td {
+    background: var(--gold-soft);
+  }
+  .badge {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  .badge.leased { background: var(--teal-soft); color: var(--teal-deep); }
+  .badge.active { background: #f4ecd0; color: #8a6d1a; }
+  .badge.subject { background: var(--gold); color: var(--charcoal); }
+
+  /* ─────────  NARRATIVE / OBSERVATIONS  ───────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+  .obs-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--teal);
+    padding: 32px 34px;
+  }
+  .obs-card.gold { border-top-color: var(--gold); }
+  .obs-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .obs-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--charcoal);
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .obs-body {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .obs-body strong {
+    color: var(--teal-deep);
+    font-weight: 500;
+  }
+
+  /* ─────────  POSITIONING STRIP  ───────── */
+  .positioning {
+    background: linear-gradient(135deg, var(--teal-deep) 0%, var(--teal) 100%);
+    color: var(--paper);
+    padding: 64px 56px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .positioning::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 1px solid rgba(212,175,80,0.3);
+    pointer-events: none;
+  }
+  .positioning-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: rgba(212,175,80,0.3);
+    position: relative;
+  }
+  .pos-tier {
+    background: var(--teal-deep);
+    padding: 32px 28px;
+    text-align: center;
+  }
+  .pos-tier.featured {
+    background: var(--charcoal);
+    transform: scale(1.04);
+    z-index: 2;
+    border: 1px solid var(--gold);
+  }
+  .pos-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .pos-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  .pos-tier.featured .pos-price { color: var(--gold); }
+  .pos-desc {
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(251,249,244,0.8);
+    letter-spacing: 0.3px;
+  }
+
+  /* ─────────  RECOMMENDATION CLOSE  ───────── */
+  .close-rec {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 50px 56px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .close-rec h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--charcoal);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .close-rec h3 em { font-style: italic; color: var(--teal); }
+  .close-rec-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .close-rec p {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  /* ─────────  FOOTER  ───────── */
+  footer.brand-foot {
+    border-top: 1px solid var(--line);
+    padding: 38px 32px 44px;
+    background: rgba(244,239,228,0.5);
+    margin-top: 40px;
+  }
+  .foot-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .foot-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--teal);
+    font-weight: 500;
+  }
+  .foot-meta {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mute);
+    text-align: right;
+    line-height: 1.8;
+  }
+  .disclaimer {
+    max-width: 1100px;
+    margin: 24px auto 0;
+    font-size: 10px;
+    color: var(--mute);
+    line-height: 1.6;
+    font-style: italic;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  @media (max-width: 900px) {
+    .subject-grid, .two-col, .close-rec { grid-template-columns: 1fr; gap: 32px; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .positioning-grid { grid-template-columns: 1fr; }
+    .pos-tier.featured { transform: none; }
+    .subject-card, .positioning, .close-rec { padding: 36px 28px; }
+    .rec-range { font-size: 44px; }
+  }
+
+  @media (max-width: 600px) {
+    .stats-row { grid-template-columns: 1fr; }
+    table.comps { font-size: 12px; }
+    table.comps thead th, table.comps tbody td { padding: 12px 10px; }
+    .hero { padding: 50px 0 40px; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .hero, .section { page-break-inside: avoid; }
+    .subject-card, .positioning { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ────────  HEADER  ──────── -->
+<header class="brand">
+  <div class="brand-inner">
+    <div class="logo-block">
+      <div class="logo-mark">Verandah</div>
+      <div class="logo-divider"></div>
+      <div class="logo-text">
+        Properties LLC<br>
+        Lake&nbsp;Nona&nbsp;·&nbsp;Orlando
+      </div>
+    </div>
+    <div class="header-meta">
+      Rental Market Analysis
+      <strong>May 15, 2026</strong>
+    </div>
+  </div>
+</header>
+
+<!-- ────────  HERO  ──────── -->
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-eyebrow">Confidential Owner Briefing</div>
+    <h1>A measured read on <em>10033&nbsp;Cypress&nbsp;Glen&nbsp;Place</em>.</h1>
+    <p class="hero-sub">Comparative rental analysis · Prepared by Pamela Syvertson, Broker</p>
+  </section>
+
+  <!-- ────────  SUBJECT CARD  ──────── -->
+  <section class="subject-card">
+    <div class="subject-grid">
+      <div>
+        <div class="subject-label">Subject Property</div>
+        <div class="subject-address">10033 Cypress Glen Place</div>
+        <div class="subject-city">Orlando, Florida</div>
+        <div class="subject-specs">
+          <div class="spec">
+            <div class="spec-num">3</div>
+            <div class="spec-label">Bedrooms</div>
+          </div>
+          <div class="spec">
+            <div class="spec-num">2</div>
+            <div class="spec-label">Baths</div>
+          </div>
+          <div class="spec">
+            <div class="spec-num">1,251</div>
+            <div class="spec-label">Heated SqFt</div>
+          </div>
+          <div class="spec">
+            <div class="spec-num">1997</div>
+            <div class="spec-label">Year Built</div>
+          </div>
+        </div>
+      </div>
+      <div class="rec-panel">
+        <div class="rec-eyebrow">Recommended Range</div>
+        <div class="rec-range">$2,250&nbsp;–&nbsp;$2,350</div>
+        <div class="rec-per-mo">Per Month · Show Ready</div>
+        <div class="rec-target">
+          Strategic list price <strong>$2,350</strong><br>
+          <span style="font-size:11.5px; color: rgba(251,249,244,0.65); letter-spacing:0.5px;">Start high, monitor first-week showing activity, adjust if needed.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────  SECTION 1: MARKET SNAPSHOT  ──────── -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">i.</div>
+      <h2 class="section-title">The <em>market snapshot</em></h2>
+      <div class="section-kicker">3 BR · 2 BA · Comparable Inventory</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-label">Median Leased</div>
+        <div class="stat-value teal">$2,250</div>
+        <div class="stat-detail">7 closed leases · 100.3% avg SP/LP</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Average Leased</div>
+        <div class="stat-value">$2,213</div>
+        <div class="stat-detail">Range $2,059 – $2,300</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Avg Days on Market</div>
+        <div class="stat-value">37</div>
+        <div class="stat-detail">Median 27 · One outlier at 92</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Active Comp</div>
+        <div class="stat-value">$2,500</div>
+        <div class="stat-detail">1 listing · 7 DOM · Sylvan Pond</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────  SECTION 2: CHART  ──────── -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">ii.</div>
+      <h2 class="section-title">Where the <em>subject lands</em></h2>
+      <div class="section-kicker">Visual Positioning</div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Rent vs. <em>Square Footage</em></div>
+      <div class="chart-sub">Subject overlaid on leased & active comps</div>
+      <div class="chart-wrap">
+        <canvas id="scatterChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────  SECTION 3: COMPS  ──────── -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">iii.</div>
+      <h2 class="section-title">The <em>comparable set</em></h2>
+      <div class="section-kicker">Stellar MLS · CoreLogic 360</div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="comps">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Address</th>
+            <th>Subdivision</th>
+            <th class="right">Yr</th>
+            <th class="right">SqFt</th>
+            <th class="right">$/SqFt</th>
+            <th class="right">Rent / Leased</th>
+            <th class="right">SP/LP</th>
+            <th class="right">DOM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="subject-row">
+            <td><span class="badge subject">Subject</span></td>
+            <td class="addr">10033 Cypress Glen Pl</td>
+            <td class="sub">—</td>
+            <td class="right">1997</td>
+            <td class="right">1,251</td>
+            <td class="right">$1.88</td>
+            <td class="right"><strong>$2,350</strong></td>
+            <td class="right">—</td>
+            <td class="right">—</td>
+          </tr>
+          <tr>
+            <td><span class="badge active">Active</span></td>
+            <td class="addr">861 Blackgum Ct</td>
+            <td class="sub">Sylvan Pond</td>
+            <td class="right">1992</td>
+            <td class="right">1,280</td>
+            <td class="right">$1.95</td>
+            <td class="right">$2,500</td>
+            <td class="right">—</td>
+            <td class="right">7</td>
+          </tr>
+          <tr>
+            <td><span class="badge leased">Leased</span></td>
+            <td class="addr">10200 Willowemac Ct</td>
+            <td class="sub">River Park</td>
+            <td class="right">1994</td>
+            <td class="right">1,203</td>
+            <td class="right">$1.83</td>
+            <td class="right">$2,200</td>
+            <td class="right">100.0%</td>
+            <td class="right">10</td>
+          </tr>
+          <tr>
+            <td><span class="badge leased">Leased</span></td>
+            <td class="addr">10002 Massey St</td>
+            <td class="sub">—</td>
+            <td class="right">2026</td>
+            <td class="right">1,225</td>
+            <td class="right">$1.88</td>
+            <td class="right">$2,300</td>
+            <td class="right">100.0%</td>
+            <td class="right">14</td>
+          </tr>
+          <tr>
+            <td><span class="badge leased">Leased</span></td>
+            <td class="addr">11414 Pinewood Cove Ln</td>
+            <td class="sub">Hickory Cove</td>
+            <td class="right">2004</td>
+            <td class="right">1,255</td>
+            <td class="right">$1.83</td>
+            <td class="right">$2,295</td>
+            <td class="right">100.0%</td>
+            <td class="right">92</td>
+          </tr>
+          <tr>
+            <td><span class="badge leased">Leased</span></td>
+            <td class="addr">11248 Cypress Leaf Dr</td>
+            <td class="sub">Sturbridge</td>
+            <td class="right">1993</td>
+            <td class="right">1,330</td>
+            <td class="right">$1.61</td>
+            <td class="right">$2,140</td>
+            <td class="right">100.0%</td>
+            <td class="right">29</td>
+          </tr>
+          <tr>
+            <td><span class="badge leased">Leased</span></td>
+            <td class="addr">11301 Cypress Leaf Dr</td>
+            <td class="sub">Sturbridge</td>
+            <td class="right">1993</td>
+            <td class="right">1,332</td>
+            <td class="right">$1.69</td>
+            <td class="right">$2,250</td>
+            <td class="right">102.3%</td>
+            <td class="right">85</td>
+          </tr>
+          <tr>
+            <td><span class="badge leased">Leased</span></td>
+            <td class="addr">767 Meadowside Ct</td>
+            <td class="sub">Sylvan Pond</td>
+            <td class="right">1990</td>
+            <td class="right">1,338</td>
+            <td class="right">$1.72</td>
+            <td class="right">$2,295</td>
+            <td class="right">100.0%</td>
+            <td class="right">27</td>
+          </tr>
+          <tr>
+            <td><span class="badge leased">Leased</span></td>
+            <td class="addr">441 Briar Bay Cir</td>
+            <td class="sub">Briar Bay</td>
+            <td class="right">1997</td>
+            <td class="right">1,380</td>
+            <td class="right">$1.49</td>
+            <td class="right">$2,059</td>
+            <td class="right">100.0%</td>
+            <td class="right">2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ────────  SECTION 4: OBSERVATIONS  ──────── -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">iv.</div>
+      <h2 class="section-title">What the <em>data tells us</em></h2>
+      <div class="section-kicker">Pattern Recognition</div>
+    </div>
+
+    <div class="two-col">
+      <div class="obs-card">
+        <div class="obs-num">No. 1</div>
+        <div class="obs-title">The market is rewarding accurate pricing, not aspiration.</div>
+        <div class="obs-body">
+          Seven of seven leased comps closed at or within 2.3% of list. Median DOM landed at <strong>27 days</strong>, but the two longest cycles (92 and 85 days) both belonged to properties that started above market and required time to find their level. <strong>Properly priced 3/2s in this submarket are leasing in under 30 days.</strong>
+        </div>
+      </div>
+      <div class="obs-card gold">
+        <div class="obs-num">No. 2</div>
+        <div class="obs-title">The lone active is a directional signal worth respecting.</div>
+        <div class="obs-body">
+          861 Blackgum Ct is asking $2,500 with only 7 days on market — too early to call as either a benchmark or an outlier. What it does tell us is that <strong>at least one owner believes the market will bear above the leased range</strong>, and we won't know until that listing is tested. The strategy here is to position the subject confidently within the upper band and let first-week showing activity tell us where to settle.
+        </div>
+      </div>
+      <div class="obs-card gold">
+        <div class="obs-num">No. 3</div>
+        <div class="obs-title">Year built matters less than condition and finish.</div>
+        <div class="obs-body">
+          The leased range spans 1990 to 2026 construction with remarkably tight rent spread ($2,059 – $2,300). At 1997 vintage, the subject's age is not a constraint. The premium rents in this set were tied to <strong>rent-ready condition</strong> — exactly the expectation you've set for this property.
+        </div>
+      </div>
+      <div class="obs-card">
+        <div class="obs-num">No. 4</div>
+        <div class="obs-title">Square footage and condition support a confident upper-band entry.</div>
+        <div class="obs-body">
+          At 1,251 sqft the subject sits between 10002 Massey ($2,300) and 11414 Pinewood Cove ($2,295), and slightly under 11301 Cypress Leaf which <strong>closed over ask at $2,250</strong>. With show-ready condition as the baseline, a $2,350 list price represents a measured stretch — anchored to comps but positioned to capture upward movement if the market is shifting.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────  SECTION 5: STRATEGY  ──────── -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">v.</div>
+      <h2 class="section-title">Three <em>positioning paths</em></h2>
+      <div class="section-kicker">Recommended Strategy Highlighted</div>
+    </div>
+
+    <div class="positioning">
+      <div class="positioning-grid">
+        <div class="pos-tier">
+          <div class="pos-label">Floor</div>
+          <div class="pos-price">$2,250</div>
+          <div class="pos-desc">
+            The fallback target.<br>
+            Aligned with leased median.<br>
+            Reserved for week-two adjustment if showings underperform.
+          </div>
+        </div>
+        <div class="pos-tier featured">
+          <div class="pos-label">Recommended Launch</div>
+          <div class="pos-price">$2,350</div>
+          <div class="pos-desc">
+            Start here. Monitor week one.<br>
+            Tests upward demand confidently.<br>
+            Backed by show-ready condition and tight inventory.
+          </div>
+        </div>
+        <div class="pos-tier">
+          <div class="pos-label">Ceiling</div>
+          <div class="pos-price">$2,400+</div>
+          <div class="pos-desc">
+            Only if showings are strong and applications come in fast.<br>
+            Re-evaluate at the 7-day mark.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────  CLOSING RECOMMENDATION  ──────── -->
+  <section class="section">
+    <div class="close-rec">
+      <div>
+        <div class="close-rec-eyebrow">My Recommendation</div>
+        <h3>Launch at <em>$2,350</em>. Monitor week one.</h3>
+      </div>
+      <div>
+        <p>This is a measured stretch above the leased range, supported by show-ready condition and the active listing testing the upper band. The strategy is intentional: <strong>start high, let the market respond, and read the data quickly.</strong></p>
+        <p>Strong first-week showing activity with applications inside 7–10 days confirms the price. If we see traffic but no applications by day 7, the natural adjustment is a $50 reduction to $2,300. If activity is light by day 10, drop to the $2,250 floor — still aligned with the leased median and competitively positioned. <strong>This approach captures upside without committing to vacancy carrying cost.</strong></p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ────────  FOOTER  ──────── -->
+<footer class="brand-foot">
+  <div class="foot-inner">
+    <div class="foot-tag">Curating Lake Nona's Finest Rental Portfolio</div>
+    <div class="foot-meta">
+      Pamela Syvertson · Broker / Owner<br>
+      Verandah Properties LLC · Lake Nona, Orlando
+    </div>
+  </div>
+  <p class="disclaimer wrap" style="padding-left:0; padding-right:0;">
+    This is an opinion of value or Comparative Market Analysis and should not be considered an appraisal. In making any decision that relies upon this work, you should know that the guidelines for development of an appraisal or analysis contained in the Uniform Standards of Professional Appraisal Practice of the Appraisal Foundation have not been followed. Comparable data sourced from Stellar MLS via CoreLogic 360 as of May 15, 2026.
+  </p>
+</footer>
+
+<script>
+(function(){
+  const ctx = document.getElementById('scatterChart').getContext('2d');
+
+  const leased = [
+    { x: 1203, y: 2200, label: '10200 Willowemac' },
+    { x: 1225, y: 2300, label: '10002 Massey' },
+    { x: 1255, y: 2295, label: '11414 Pinewood Cove' },
+    { x: 1330, y: 2140, label: '11248 Cypress Leaf' },
+    { x: 1332, y: 2250, label: '11301 Cypress Leaf' },
+    { x: 1338, y: 2295, label: '767 Meadowside' },
+    { x: 1380, y: 2059, label: '441 Briar Bay' }
+  ];
+  const active = [
+    { x: 1280, y: 2500, label: '861 Blackgum (Active)' }
+  ];
+  const subject = [
+    { x: 1251, y: 2350, label: '10033 Cypress Glen (Subject)' }
+  ];
+
+  new Chart(ctx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: 'Leased Comps',
+          data: leased,
+          backgroundColor: 'rgba(0, 140, 130, 0.85)',
+          borderColor: '#006a62',
+          borderWidth: 1.5,
+          pointRadius: 8,
+          pointHoverRadius: 11
+        },
+        {
+          label: 'Active Listing',
+          data: active,
+          backgroundColor: 'rgba(212, 175, 80, 0.85)',
+          borderColor: '#a8862e',
+          borderWidth: 1.5,
+          pointRadius: 8,
+          pointHoverRadius: 11,
+          pointStyle: 'rectRot'
+        },
+        {
+          label: 'Subject @ $2,350',
+          data: subject,
+          backgroundColor: '#1a1a1a',
+          borderColor: '#D4AF50',
+          borderWidth: 2.5,
+          pointRadius: 12,
+          pointHoverRadius: 14,
+          pointStyle: 'star'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: { family: 'Jost', size: 12, weight: '400' },
+            color: '#2a2a2a',
+            padding: 18,
+            usePointStyle: true,
+            pointStyle: 'circle'
+          }
+        },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          titleColor: '#D4AF50',
+          bodyColor: '#fbf9f4',
+          titleFont: { family: 'Cormorant Garamond', size: 14, weight: '500' },
+          bodyFont: { family: 'Jost', size: 12 },
+          padding: 12,
+          borderColor: '#D4AF50',
+          borderWidth: 1,
+          callbacks: {
+            label: function(ctx){
+              return ctx.raw.label + ': ' + ctx.raw.x.toLocaleString() + ' sqft · $' + ctx.raw.y.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'HEATED SQUARE FEET',
+            font: { family: 'Jost', size: 10, weight: '500' },
+            color: '#6b6557'
+          },
+          ticks: {
+            font: { family: 'Jost', size: 11 },
+            color: '#6b6557',
+            callback: function(v){ return v.toLocaleString(); }
+          },
+          grid: { color: '#ebe6d7', drawBorder: false },
+          min: 1150,
+          max: 1420
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'MONTHLY RENT',
+            font: { family: 'Jost', size: 10, weight: '500' },
+            color: '#6b6557'
+          },
+          ticks: {
+            font: { family: 'Jost', size: 11 },
+            color: '#6b6557',
+            callback: function(v){ return '$' + v.toLocaleString(); }
+          },
+          grid: { color: '#ebe6d7', drawBorder: false },
+          min: 1950,
+          max: 2600
+        }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
